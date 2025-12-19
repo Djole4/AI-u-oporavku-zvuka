@@ -47,7 +47,7 @@ function Materials() {
     },
     {
       id: 2,
-      author: 'Igor Janičijević',
+      author: 'Igor Janičijević 022/2023',
       title: 'Duboke Neuronske Mreže',
       description: 'Primena CNN i RNN u restauraciji zvuka',
       // UBACI PUTANJU: /public/videos/video2.mp4

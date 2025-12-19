@@ -95,7 +95,7 @@ function App() {
                 <h4>Autori</h4>
                 <div className="authors">
                   <p>👨‍🎓 Đorđe Đoković 121/2023</p>
-                  <p>👨‍🎓 Igor Janičijević</p>
+                  <p>👨‍🎓 Igor Janičijević 022/2023</p>
                   <p>👨‍🎓 Đorđe Marković 127/2023</p>
                 </div>
               </div>
@@ -157,7 +157,7 @@ function App() {
                 <h4>Autori</h4>
                 <div className="authors">
                   <p>👨‍🎓 Đorđe Đoković 121/2023</p>
-                  <p>👨‍🎓 Igor Janičijević</p>
+                  <p>👨‍🎓 Igor Janičijević 022/2023</p>
                   <p>👨‍🎓 Đorđe Marković 127/2023</p>
                 </div>
               </div>
@@ -494,7 +494,7 @@ function App() {
               <h4>Autori</h4>
               <div className="authors">
                 <p>👨‍🎓 Đorđe Đoković 121/2023</p>
-                <p>👨‍🎓 Igor Janičijević 000/2023</p>
+                <p>👨‍🎓 Igor Janičijević 022/2023</p>
                 <p>👨‍🎓 Đorđe Marković 127/2023</p>
               </div>
             </div>
