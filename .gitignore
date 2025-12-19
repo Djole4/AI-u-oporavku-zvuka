@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+frontend/node_modules/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.DS_Store
+
+# Logs
+*.log
+
+# Backend uploads
+backend/uploads/*
+!backend/uploads/.gitignore
+
+# Frontend materials  
+frontend/public/materials/*
+!frontend/public/materials/README.md
+frontend/public/videos/*
+!frontend/public/videos/README.md
