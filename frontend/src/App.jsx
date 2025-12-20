@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Materials from './components/Materials'
 import Literatura from './components/Literatura'
+import Quiz from './components/Quiz'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
@@ -168,6 +169,39 @@ function App() {
     )
   }
 
+  // Render Quiz page
+  if (currentPage === 'kviz') {
+    return (
+      <div className="app">
+        {/* Navbar */}
+        <nav className="navbar">
+          <div className="nav-container">
+            <div className="nav-logo" onClick={() => navigateTo('home')} style={{ cursor: 'pointer' }}>
+              <span className="logo-icon">🎵</span>
+              <span className="logo-text">AI Audio Restoration</span>
+            </div>
+            <ul className="nav-menu">
+              <li className={activeSection === 'home' ? 'active' : ''}>
+                <a href="#home" onClick={(e) => { e.preventDefault(); navigateTo('home'); }}>Početna</a>
+              </li>
+              <li className={activeSection === 'materijal' ? 'active' : ''}>
+                <a href="#materijal" onClick={(e) => { e.preventDefault(); navigateTo('materijal'); }}>Materijal</a>
+              </li>
+              <li className={activeSection === 'literatura' ? 'active' : ''}>
+                <a href="#literatura" onClick={(e) => { e.preventDefault(); navigateTo('literatura'); }}>Literatura</a>
+              </li>
+              <li className={activeSection === 'kviz' ? 'active' : ''}>
+                <a href="#kviz" onClick={(e) => { e.preventDefault(); navigateTo('kviz'); }}>Kviz</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        
+        <Quiz />
+      </div>
+    )
+  }
+
   return (
     <div className="app">
       {/* Navbar */}
@@ -188,7 +222,7 @@ function App() {
               <a href="#literatura" onClick={(e) => { e.preventDefault(); navigateTo('literatura'); }}>Literatura</a>
             </li>
             <li className={activeSection === 'kviz' ? 'active' : ''}>
-              <a href="#kviz" onClick={() => setActiveSection('kviz')}>Kviz</a>
+              <a href="#kviz" onClick={(e) => { e.preventDefault(); navigateTo('kviz'); }}>Kviz</a>
             </li>
           </ul>
         </div>

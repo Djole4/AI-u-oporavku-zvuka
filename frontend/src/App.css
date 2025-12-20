@@ -4,6 +4,49 @@
   box-sizing: border-box;
 }
 
+/* Emoji fix - potpuno ukloni sve pozadine i efekte oko emojija */
+.logo-icon,
+.start-icon,
+.info-icon,
+.btn-icon,
+.trophy-icon,
+.result-emoji,
+.answer-icon,
+.resource-icon,
+.icon {
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.logo-icon::before,
+.logo-icon::after,
+.start-icon::before,
+.start-icon::after,
+.info-icon::before,
+.info-icon::after,
+.btn-icon::before,
+.btn-icon::after,
+.trophy-icon::before,
+.trophy-icon::after,
+.result-emoji::before,
+.result-emoji::after,
+.answer-icon::before,
+.answer-icon::after,
+.resource-icon::before,
+.resource-icon::after,
+.icon::before,
+.icon::after {
+  display: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
 .app {
   min-height: 100vh;
   background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
