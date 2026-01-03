@@ -1,306 +1,656 @@
+import { useState, useRef } from 'react'
 import './Literatura.css'
 
 function Literatura() {
-  // OVDE UBACI LINKOVE I PODATKE O LITERATURI
-  const references = {
-    books: [
-      {
-        id: 1,
-        title: 'Deep Learning for Audio Signal Processing',
-        authors: 'Author Name Here', // UBACI IME AUTORA
-        year: '2023',
-        publisher: 'Publisher Name', // UBACI IZDAVAČA
-        // UBACI LINK (opciono):
-        link: '',
-        description: 'Knjiga o primeni dubokog učenja u obradi audio signala'
-      },
-      {
-        id: 2,
-        title: 'Audio Restoration Techniques',
-        authors: 'Author Name Here', // UBACI IME AUTORA
-        year: '2022',
-        publisher: 'Publisher Name', // UBACI IZDAVAČA
-        // UBACI LINK (opciono):
-        link: '',
-        description: 'Tehnike restauracije audio zapisa'
-      },
-      {
-        id: 3,
-        title: 'Neural Networks and Audio Processing',
-        authors: 'Author Name Here', // UBACI IME AUTORA
-        year: '2024',
-        publisher: 'Publisher Name', // UBACI IZDAVAČA
-        // UBACI LINK (opciono):
-        link: '',
-        description: 'Neuronske mreže u audio obradi'
+  const [activeExample, setActiveExample] = useState(0)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [isPlayingBefore, setIsPlayingBefore] = useState(false)
+  const [isPlayingAfter, setIsPlayingAfter] = useState(false)
+  const [isPlayingVocal, setIsPlayingVocal] = useState(false)
+  const [isPlayingInstrumental, setIsPlayingInstrumental] = useState(false)
+  const [showAfter, setShowAfter] = useState(false)
+  
+  const audioBeforeRef = useRef(null)
+  const audioAfterRef = useRef(null)
+  const audioVocalRef = useRef(null)
+  const audioInstrumentalRef = useRef(null)
+
+  const aiExamples = [
+    {
+      id: 1,
+      title: 'Uklanjanje šuma iz govora',
+      icon: '🔊',
+      iconBig: '🔊',
+      before: 'Audio sa pozadinskim šumom',
+      after: 'Čist govor bez šuma',
+      technique: 'Deep Neural Networks',
+      accuracy: '95%',
+      speed: '~2s',
+      hardware: 'GPU',
+      color: '#667eea',
+      type: 'single',
+      audioFiles: {
+        before: '/audio/noisy-speech.mp3',
+        after: '/audio/clean-speech.mp3'
       }
-    ],
-    articles: [
-      {
-        id: 1,
-        title: 'AI-Based Audio Enhancement: A Survey',
-        authors: 'Author Names', // UBACI AUTORE
-        journal: 'Journal Name', // UBACI NAZIV ČASOPISA
-        year: '2023',
-        // UBACI LINK:
-        link: '',
-        doi: '' // UBACI DOI (opciono)
-      },
-      {
-        id: 2,
-        title: 'Noise Reduction Using Deep Neural Networks',
-        authors: 'Author Names', // UBACI AUTORE
-        journal: 'Journal Name', // UBACI NAZIV ČASOPISA
-        year: '2024',
-        // UBACI LINK:
-        link: '',
-        doi: '' // UBACI DOI (opciono)
-      },
-      {
-        id: 3,
-        title: 'Machine Learning Approaches to Audio Restoration',
-        authors: 'Author Names', // UBACI AUTORE
-        journal: 'Journal Name', // UBACI NAZIV ČASOPISA
-        year: '2023',
-        // UBACI LINK:
-        link: '',
-        doi: '' // UBACI DOI (opciono)
+    },
+    {
+      id: 2,
+      title: 'Razdvajanje vokala i instrumentala',
+      icon: '🎵',
+      iconBig: '🎼',
+      before: 'Kompletna pesma sa svim elementima',
+      after: 'Razdvojeni vokal i instrumental',
+      technique: 'Source Separation AI',
+      accuracy: '92%',
+      speed: '~4s',
+      hardware: 'GPU',
+      color: '#f093fb',
+      type: 'dual',
+      audioFiles: {
+        before: '/audio/song.mp3',
+        vocal: '/audio/vocal.mp3',
+        instrumental: '/audio/instrumental.mp3'
       }
-    ],
-    webResources: [
-      {
-        id: 1,
-        title: 'TensorFlow Audio Processing Tutorial',
-        source: 'TensorFlow Official Documentation',
-        // UBACI LINK:
-        link: 'https://www.tensorflow.org/tutorials/audio',
-        accessDate: '2024',
-        description: 'Zvanična TensorFlow dokumentacija za audio obradu'
-      },
-      {
-        id: 2,
-        title: 'PyTorch Audio Documentation',
-        source: 'PyTorch Official',
-        // UBACI LINK:
-        link: '',
-        accessDate: '2024',
-        description: 'PyTorch biblioteke za audio'
-      },
-      {
-        id: 3,
-        title: 'Librosa - Python Audio Analysis',
-        source: 'Librosa Documentation',
-        // UBACI LINK:
-        link: '',
-        accessDate: '2024',
-        description: 'Python biblioteka za analizu audio signala'
-      },
-      {
-        id: 4,
-        title: 'Audio AI Research Papers',
-        source: 'ArXiv.org',
-        // UBACI LINK:
-        link: '',
-        accessDate: '2024',
-        description: 'Naučni radovi o AI u audio obradi'
-      }
-    ],
-    videos: [
-      {
-        id: 1,
-        title: 'Introduction to Audio Deep Learning',
-        channel: 'YouTube Channel Name', // UBACI KANAL
-        // UBACI LINK:
-        link: '',
-        duration: '45:00',
-        description: 'Video tutorial o dubokom učenju u audio obradi'
-      },
-      {
-        id: 2,
-        title: 'Audio Signal Processing with Python',
-        channel: 'YouTube Channel Name', // UBACI KANAL
-        // UBACI LINK:
-        link: '',
-        duration: '1:20:00',
-        description: 'Kompletan kurs o obradi audio signala'
-      }
-    ]
+    },
+    {
+      id: 3,
+      title: 'Uklanjanje eha',
+      icon: '📢',
+      iconBig: '📢',
+      before: 'Audio sa jačim ehom',
+      after: 'Čist audio bez reverba',
+      technique: 'RNN Models',
+      accuracy: '91%',
+      speed: '~3s',
+      hardware: 'GPU',
+      color: '#43e97b',
+      type: 'single',
+      audioFiles: null
+    }
+  ]
+
+  const stopAllAudio = () => {
+    if (audioBeforeRef.current) {
+      audioBeforeRef.current.pause()
+      audioBeforeRef.current.currentTime = 0
+    }
+    if (audioAfterRef.current) {
+      audioAfterRef.current.pause()
+      audioAfterRef.current.currentTime = 0
+    }
+    if (audioVocalRef.current) {
+      audioVocalRef.current.pause()
+      audioVocalRef.current.currentTime = 0
+    }
+    if (audioInstrumentalRef.current) {
+      audioInstrumentalRef.current.pause()
+      audioInstrumentalRef.current.currentTime = 0
+    }
+    setIsPlayingBefore(false)
+    setIsPlayingAfter(false)
+    setIsPlayingVocal(false)
+    setIsPlayingInstrumental(false)
   }
 
-  const handleLinkClick = (link) => {
-    if (link) {
-      window.open(link, '_blank')
+  const handleProcess = () => {
+    setIsProcessing(true)
+    stopAllAudio()
+    
+    setTimeout(() => {
+      setIsProcessing(false)
+      setShowAfter(true)
+    }, 2000)
+  }
+
+  const togglePlayBefore = () => {
+    if (!audioBeforeRef.current) return
+    stopAllAudio()
+    
+    if (!isPlayingBefore) {
+      audioBeforeRef.current.play()
+      setIsPlayingBefore(true)
     }
   }
+
+  const togglePlayAfter = () => {
+    if (!audioAfterRef.current) return
+    stopAllAudio()
+    
+    if (!isPlayingAfter) {
+      audioAfterRef.current.play()
+      setIsPlayingAfter(true)
+    }
+  }
+
+  const togglePlayVocal = () => {
+    if (!audioVocalRef.current) return
+    stopAllAudio()
+    
+    if (!isPlayingVocal) {
+      audioVocalRef.current.play()
+      setIsPlayingVocal(true)
+    }
+  }
+
+  const togglePlayInstrumental = () => {
+    if (!audioInstrumentalRef.current) return
+    stopAllAudio()
+    
+    if (!isPlayingInstrumental) {
+      audioInstrumentalRef.current.play()
+      setIsPlayingInstrumental(true)
+    }
+  }
+
+  const handleAudioEnded = (type) => {
+    if (type === 'before') setIsPlayingBefore(false)
+    else if (type === 'after') setIsPlayingAfter(false)
+    else if (type === 'vocal') setIsPlayingVocal(false)
+    else if (type === 'instrumental') setIsPlayingInstrumental(false)
+  }
+
+  const handleExampleChange = (index) => {
+    stopAllAudio()
+    setShowAfter(false)
+    setActiveExample(index)
+  }
+
+  const currentExample = aiExamples[activeExample]
+  const hasAudio = currentExample.audioFiles !== null
+  const isDualOutput = currentExample.type === 'dual'
 
   return (
     <div className="literatura-page">
       {/* Hero Section */}
       <section className="literatura-hero">
         <div className="container">
+          <div className="ai-badge">
+            <span className="badge-icon">👥</span>
+            <span>Studentski Projekat uz AI Podršku</span>
+          </div>
           <h1 className="page-title">
-            <span className="icon">📖</span>
-            <span className="gradient-text">Literatura</span>
+            <span className="gradient-text">Naš Tim & Korišćene Tehnologije</span>
           </h1>
-          <p className="page-subtitle">
-            Pregled svih izvora korišćenih u istraživanju i izradi projekta
+          <p className="hero-subtitle">
+            Ovaj projekat su razvili studenti koristeći moderne AI alate kao podršku.<br />
+            Koristili smo veštačku inteligenciju za ubrzanje razvoja i rešavanje tehničkih izazova.
           </p>
         </div>
       </section>
 
-      {/* Books Section */}
-      <section className="references-section">
+      {/* Team Contribution Section */}
+      <section className="ai-tools-section">
         <div className="container">
           <h2 className="section-title">
-            <span className="icon">📚</span>
-            Knjige
+            <span className="icon">👨‍💻</span>
+            Naš Doprinos Projektu
           </h2>
           
-          <div className="references-grid">
-            {references.books.map((book) => (
-              <div key={book.id} className="reference-card book-card">
-                <div className="ref-number">{book.id}</div>
-                <div className="ref-content">
-                  <h3>{book.title}</h3>
-                  <p className="ref-authors">{book.authors}</p>
-                  <div className="ref-meta">
-                    <span className="ref-year">{book.year}</span>
-                    <span className="ref-separator">•</span>
-                    <span className="ref-publisher">{book.publisher}</span>
+          <div className="tools-grid">
+            <div className="tool-card">
+              <div className="tool-icon">🎯</div>
+              <h3>Konceptualizacija</h3>
+              <p>Osmišljavanje funkcionalnosti i korisničkog iskustva aplikacije</p>
+              <div className="tool-stat">
+                <span className="stat-value">100%</span>
+                <span className="stat-label">Naš Rad</span>
+              </div>
+            </div>
+            
+            <div className="tool-card">
+              <div className="tool-icon">💻</div>
+              <h3>Backend Razvoj</h3>
+              <p>Kreiranje PHP API-ja, baze podataka i server logike</p>
+              <div className="tool-stat">
+                <span className="stat-value">PHP</span>
+                <span className="stat-label">MySQL</span>
+              </div>
+            </div>
+            
+            <div className="tool-card">
+              <div className="tool-icon">🎨</div>
+              <h3>Frontend Dizajn</h3>
+              <p>Razvoj React komponenti i korisničkog interfejsa</p>
+              <div className="tool-stat">
+                <span className="stat-value">React</span>
+                <span className="stat-label">Vite</span>
+              </div>
+            </div>
+            
+            <div className="tool-card">
+              <div className="tool-icon">🧪</div>
+              <h3>Testiranje & Debug</h3>
+              <p>Testiranje funkcionalnosti, ispravljanje grešaka i optimizacija</p>
+              <div className="tool-stat">
+                <span className="stat-value">QA</span>
+                <span className="stat-label">Testing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Tools Used Section */}
+      <section className="ai-tools-section" style={{ background: 'linear-gradient(180deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%)' }}>
+        <div className="container">
+          <h2 className="section-title">
+            <span className="icon">🤖</span>
+            AI Alati Koje Smo Koristili
+          </h2>
+          
+          <div className="tools-grid">
+            <div className="tool-card">
+              <div className="tool-icon">💬</div>
+              <h3>GitHub Copilot</h3>
+              <p>Pomoć pri pisanju koda i sugestije za optimizaciju</p>
+              <div className="tool-stat">
+                <span className="stat-value">AI</span>
+                <span className="stat-label">Asistent</span>
+              </div>
+            </div>
+            
+            <div className="tool-card">
+              <div className="tool-icon">🎨</div>
+              <h3>ChatGPT & Claude</h3>
+              <p>Rešavanje tehničkih problema i generisanje ideja</p>
+              <div className="tool-stat">
+                <span className="stat-value">AI</span>
+                <span className="stat-label">Pomoćnik</span>
+              </div>
+            </div>
+            
+            <div className="tool-card">
+              <div className="tool-icon">📝</div>
+              <h3>AI Dokumentacija</h3>
+              <p>Pomoć pri pisanju komentara i README fajlova</p>
+              <div className="tool-stat">
+                <span className="stat-value">AI</span>
+                <span className="stat-label">Support</span>
+              </div>
+            </div>
+            
+            <div className="tool-card">
+              <div className="tool-icon">🔍</div>
+              <h3>AI Code Review</h3>
+              <p>Analiza koda i predlozi za poboljšanja</p>
+              <div className="tool-stat">
+                <span className="stat-value">AI</span>
+                <span className="stat-label">Reviewer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Examples Section */}
+      <section className="examples-section">
+        <div className="container">
+          <h2 className="section-title">
+            <span className="icon">🎯</span>
+            Interaktivni Primeri AI Obrade Zvuka
+          </h2>
+          <p className="section-subtitle">
+            Klikni na primer da vidiš kako AI transformiše audio signale
+          </p>
+          
+          <div className="examples-container">
+            {/* Example Selector */}
+            <div className="examples-selector">
+              {aiExamples.map((example, index) => (
+                <div
+                  key={example.id}
+                  className={`example-tab ${activeExample === index ? 'active' : ''}`}
+                  onClick={() => handleExampleChange(index)}
+                  style={{ '--tab-color': example.color }}
+                >
+                  <span className="tab-icon">{example.icon}</span>
+                  <span className="tab-title">{example.title}</span>
+                  {activeExample === index && <div className="tab-indicator"></div>}
+                  {example.audioFiles && <span className="audio-badge">🔊</span>}
+                </div>
+              ))}
+            </div>
+
+            {/* Example Display */}
+            <div className="example-display">
+              <div className="example-content">
+                <div className="example-header">
+                  <div className="example-icon" style={{ background: currentExample.color }}>
+                    <span className="icon-big">{currentExample.iconBig || currentExample.icon}</span>
                   </div>
-                  <p className="ref-description">{book.description}</p>
-                  {book.link && (
-                    <button 
-                      className="ref-link-btn"
-                      onClick={() => handleLinkClick(book.link)}
+                  <div>
+                    <h3>{currentExample.title}</h3>
+                    <p className="technique-badge">
+                      <span className="badge-dot"></span>
+                      {currentExample.technique}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Single Output Layout */}
+                {!isDualOutput && (
+                  <div className="audio-comparison">
+                    <div 
+                      className={`audio-box before ${hasAudio ? 'clickable' : ''} ${isPlayingBefore ? 'playing' : ''}`}
+                      onClick={hasAudio ? togglePlayBefore : undefined}
                     >
-                      <span>🔗</span> Pogledaj
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                      <div className="audio-label">
+                        <span className="label-icon">🔴</span>
+                        PRE OBRADE
+                        {hasAudio && (
+                          <span className="play-indicator">
+                            {isPlayingBefore ? '⏸️' : '▶️'}
+                          </span>
+                        )}
+                      </div>
+                      <div className="waveform">
+                        {[...Array(20)].map((_, i) => (
+                          <div 
+                            key={i} 
+                            className={`wave-bar noisy ${isPlayingBefore ? 'active' : ''}`}
+                          ></div>
+                        ))}
+                      </div>
+                      <p className="audio-desc">{currentExample.before}</p>
+                      {hasAudio && !isPlayingBefore && (
+                        <p className="click-hint">Klikni da čuješ</p>
+                      )}
+                    </div>
 
-      {/* Articles Section */}
-      <section className="references-section alt-bg">
-        <div className="container">
-          <h2 className="section-title">
-            <span className="icon">📄</span>
-            Naučni Članci
-          </h2>
-          
-          <div className="references-grid">
-            {references.articles.map((article) => (
-              <div key={article.id} className="reference-card article-card">
-                <div className="ref-number">{article.id}</div>
-                <div className="ref-content">
-                  <h3>{article.title}</h3>
-                  <p className="ref-authors">{article.authors}</p>
-                  <div className="ref-meta">
-                    <span className="ref-journal">{article.journal}</span>
-                    <span className="ref-separator">•</span>
-                    <span className="ref-year">{article.year}</span>
-                  </div>
-                  {article.doi && (
-                    <p className="ref-doi">DOI: {article.doi}</p>
-                  )}
-                  {article.link && (
-                    <button 
-                      className="ref-link-btn"
-                      onClick={() => handleLinkClick(article.link)}
+                    <div className="process-arrow">
+                      <button 
+                        className={`process-btn ${isProcessing ? 'processing' : ''}`}
+                        onClick={handleProcess}
+                      >
+                        {isProcessing ? (
+                          <>
+                            <span className="spinner"></span>
+                            Obrađuje...
+                          </>
+                        ) : (
+                          <>
+                            <span className="arrow">→</span>
+                            AI Obrada
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    <div 
+                      className={`audio-box after ${!showAfter ? 'hidden' : ''} ${hasAudio ? 'clickable' : ''} ${isPlayingAfter ? 'playing' : ''}`}
+                      onClick={hasAudio && showAfter ? togglePlayAfter : undefined}
                     >
-                      <span>🔗</span> Pročitaj
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                      <div className="audio-label">
+                        <span className="label-icon">🟢</span>
+                        POSLE OBRADE
+                        {hasAudio && showAfter && (
+                          <span className="play-indicator">
+                            {isPlayingAfter ? '⏸️' : '▶️'}
+                          </span>
+                        )}
+                      </div>
+                      <div className="waveform">
+                        {[...Array(20)].map((_, i) => (
+                          <div 
+                            key={i} 
+                            className={`wave-bar clean ${isPlayingAfter ? 'active' : ''}`}
+                          ></div>
+                        ))}
+                      </div>
+                      <p className="audio-desc">{currentExample.after}</p>
+                      {hasAudio && showAfter && !isPlayingAfter && (
+                        <p className="click-hint">Klikni da čuješ</p>
+                      )}
+                    </div>
+                  </div>
+                )}
 
-      {/* Web Resources Section */}
-      <section className="references-section">
-        <div className="container">
-          <h2 className="section-title">
-            <span className="icon">🌐</span>
-            Web Resursi
-          </h2>
-          
-          <div className="web-resources-grid">
-            {references.webResources.map((resource) => (
-              <div key={resource.id} className="web-resource-card">
-                <div className="resource-icon">🔗</div>
-                <div className="resource-content">
-                  <h3>{resource.title}</h3>
-                  <p className="resource-source">{resource.source}</p>
-                  <p className="resource-description">{resource.description}</p>
-                  <div className="resource-footer">
-                    <span className="resource-date">Pristupljeno: {resource.accessDate}</span>
-                    {resource.link && (
+                {/* Dual Output Layout (Vocal & Instrumental) */}
+                {isDualOutput && (
+                  <div className="dual-output-container">
+                    <div 
+                      className={`audio-box-full source ${hasAudio ? 'clickable' : ''} ${isPlayingBefore ? 'playing' : ''}`}
+                      onClick={hasAudio ? togglePlayBefore : undefined}
+                    >
+                      <div className="audio-label">
+                        <span className="label-icon">🎵</span>
+                        ORIGINALNA PESMA
+                        {hasAudio && (
+                          <span className="play-indicator">
+                            {isPlayingBefore ? '⏸️' : '▶️'}
+                          </span>
+                        )}
+                      </div>
+                      <div className="waveform-large">
+                        {[...Array(30)].map((_, i) => (
+                          <div 
+                            key={i} 
+                            className={`wave-bar mixed ${isPlayingBefore ? 'active' : ''}`}
+                          ></div>
+                        ))}
+                      </div>
+                      <p className="audio-desc">{currentExample.before}</p>
+                      {hasAudio && !isPlayingBefore && (
+                        <p className="click-hint">Klikni da čuješ originalnu pesmu</p>
+                      )}
+                    </div>
+
+                    <div className="separator-with-button">
+                      <div className="separator-line"></div>
                       <button 
-                        className="resource-visit-btn"
-                        onClick={() => handleLinkClick(resource.link)}
+                        className={`process-btn-dual ${isProcessing ? 'processing' : ''}`}
+                        onClick={handleProcess}
                       >
-                        Poseti →
+                        {isProcessing ? (
+                          <>
+                            <span className="spinner"></span>
+                            Razdvajam...
+                          </>
+                        ) : (
+                          <>
+                            <span className="split-icon">✂️</span>
+                            AI Razdvajanje
+                          </>
+                        )}
                       </button>
-                    )}
+                      <div className="separator-line"></div>
+                    </div>
+
+                    <div className={`dual-outputs ${!showAfter ? 'hidden' : ''}`}>
+                      <div 
+                        className={`audio-box-dual vocal ${hasAudio && showAfter ? 'clickable' : ''} ${isPlayingVocal ? 'playing' : ''}`}
+                        onClick={hasAudio && showAfter ? togglePlayVocal : undefined}
+                      >
+                        <div className="output-badge vocal-badge">
+                          <span className="badge-emoji">🎤</span>
+                          <span className="badge-text">VOKAL</span>
+                        </div>
+                        <div className="waveform">
+                          {[...Array(20)].map((_, i) => (
+                            <div 
+                              key={i} 
+                              className={`wave-bar vocal ${isPlayingVocal ? 'active' : ''}`}
+                            ></div>
+                          ))}
+                        </div>
+                        <p className="audio-desc">Izolovani vokal</p>
+                        {hasAudio && showAfter && !isPlayingVocal && (
+                          <p className="click-hint">Klikni za vokal</p>
+                        )}
+                        {isPlayingVocal && (
+                          <div className="playing-overlay">
+                            <span className="playing-text">⏸️ Svira...</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div 
+                        className={`audio-box-dual instrumental ${hasAudio && showAfter ? 'clickable' : ''} ${isPlayingInstrumental ? 'playing' : ''}`}
+                        onClick={hasAudio && showAfter ? togglePlayInstrumental : undefined}
+                      >
+                        <div className="output-badge instrumental-badge">
+                          <span className="badge-emoji">🎸</span>
+                          <span className="badge-text">INSTRUMENTAL</span>
+                        </div>
+                        <div className="waveform">
+                          {[...Array(20)].map((_, i) => (
+                            <div 
+                              key={i} 
+                              className={`wave-bar instrumental ${isPlayingInstrumental ? 'active' : ''}`}
+                            ></div>
+                          ))}
+                        </div>
+                        <p className="audio-desc">Izolovani instrumental</p>
+                        {hasAudio && showAfter && !isPlayingInstrumental && (
+                          <p className="click-hint">Klikni za instrumental</p>
+                        )}
+                        {isPlayingInstrumental && (
+                          <div className="playing-overlay">
+                            <span className="playing-text">⏸️ Svira...</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Hidden Audio Elements */}
+                {hasAudio && !isDualOutput && (
+                  <>
+                    <audio 
+                      ref={audioBeforeRef} 
+                      src={currentExample.audioFiles.before}
+                      onEnded={() => handleAudioEnded('before')}
+                    />
+                    <audio 
+                      ref={audioAfterRef} 
+                      src={currentExample.audioFiles.after}
+                      onEnded={() => handleAudioEnded('after')}
+                    />
+                  </>
+                )}
+
+                {hasAudio && isDualOutput && (
+                  <>
+                    <audio 
+                      ref={audioBeforeRef} 
+                      src={currentExample.audioFiles.before}
+                      onEnded={() => handleAudioEnded('before')}
+                    />
+                    <audio 
+                      ref={audioVocalRef} 
+                      src={currentExample.audioFiles.vocal}
+                      onEnded={() => handleAudioEnded('vocal')}
+                    />
+                    <audio 
+                      ref={audioInstrumentalRef} 
+                      src={currentExample.audioFiles.instrumental}
+                      onEnded={() => handleAudioEnded('instrumental')}
+                    />
+                  </>
+                )}
+
+                <div className="example-stats">
+                  <div className="stat-item accuracy">
+                    <div className="stat-icon-wrapper">
+                      <span className="stat-emoji">🎯</span>
+                    </div>
+                    <div className="stat-circle" style={{ 
+                      '--circle-color': currentExample.color,
+                      '--progress': parseInt(currentExample.accuracy)
+                    }}>
+                      <div className="circle-progress">
+                        <div className="circle-value">{currentExample.accuracy}</div>
+                      </div>
+                    </div>
+                    <span className="stat-label">Preciznost</span>
+                  </div>
+                  <div className="stat-item speed">
+                    <div className="stat-icon-wrapper">
+                      <span className="stat-emoji">⚡</span>
+                    </div>
+                    <div className="stat-circle" style={{ 
+                      '--circle-color': '#43e97b',
+                      '--progress': 85
+                    }}>
+                      <div className="circle-progress">
+                        <div className="circle-value">{currentExample.speed}</div>
+                      </div>
+                    </div>
+                    <span className="stat-label">Vreme Obrade</span>
+                  </div>
+                  <div className="stat-item hardware">
+                    <div className="stat-icon-wrapper">
+                      <span className="stat-emoji">🖥️</span>
+                    </div>
+                    <div className="stat-circle" style={{ 
+                      '--circle-color': '#f093fb',
+                      '--progress': 90
+                    }}>
+                      <div className="circle-progress">
+                        <div className="circle-value">{currentExample.hardware}</div>
+                      </div>
+                    </div>
+                    <span className="stat-label">Ubrzano</span>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Video Tutorials Section */}
-      <section className="references-section alt-bg">
+      {/* AI Impact Section */}
+      <section className="ai-impact-section">
         <div className="container">
-          <h2 className="section-title">
-            <span className="icon">🎬</span>
-            Video Tutoriali
-          </h2>
-          
-          <div className="video-refs-grid">
-            {references.videos.map((video) => (
-              <div key={video.id} className="video-ref-card">
-                <div className="video-thumbnail">
-                  <span className="play-icon">▶</span>
+          <div className="impact-content">
+            <div className="impact-text">
+              <h2>Kako Nam je AI Pomogao u Razvoju</h2>
+              <div className="impact-points">
+                <div className="impact-point">
+                  <span className="point-icon">⚡</span>
+                  <div>
+                    <h4>Ubrzanje Razvoja</h4>
+                    <p>AI alati su nam pomogli da brže pišemo kod i rešavamo rutinske zadatke</p>
+                  </div>
                 </div>
-                <div className="video-ref-content">
-                  <h3>{video.title}</h3>
-                  <p className="video-channel">📺 {video.channel}</p>
-                  <p className="video-description">{video.description}</p>
-                  <div className="video-ref-footer">
-                    <span className="video-duration">⏱️ {video.duration}</span>
-                    {video.link && (
-                      <button 
-                        className="video-watch-btn"
-                        onClick={() => handleLinkClick(video.link)}
-                      >
-                        Gledaj
-                      </button>
-                    )}
+                <div className="impact-point">
+                  <span className="point-icon">💡</span>
+                  <div>
+                    <h4>Nove Ideje</h4>
+                    <p>Dobijali smo sugestije za dizajn i implementaciju funkcionalnosti</p>
+                  </div>
+                </div>
+                <div className="impact-point">
+                  <span className="point-icon">🐛</span>
+                  <div>
+                    <h4>Brže Debugging</h4>
+                    <p>AI nam je pomagao da pronađemo i ispravimo greške u kodu</p>
+                  </div>
+                </div>
+                <div className="impact-point">
+                  <span className="point-icon">📖</span>
+                  <div>
+                    <h4>Učenje i Razvoj</h4>
+                    <p>Kroz rad sa AI alatima smo naučili nove tehnike i best practices</p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Citation Note */}
-      <section className="citation-section">
-        <div className="container">
-          <div className="citation-box">
-            <h3>📋 Napomena o Citiranju</h3>
-            <p>
-              Svi navedeni izvori su korišćeni u skladu sa akademskim standardima citiranja.
-              Za detaljnije informacije o korišćenim izvorima, posetite linkove ili kontaktirajte autore projekta.
-            </p>
+            </div>
+            <div className="impact-visual">
+              <div className="ai-brain">
+                <div className="brain-core"></div>
+                <div className="brain-wave wave-1"></div>
+                <div className="brain-wave wave-2"></div>
+                <div className="brain-wave wave-3"></div>
+                <div className="brain-particles">
+                  {[...Array(12)].map((_, i) => (
+                    <div key={i} className="particle" style={{ '--i': i }}></div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

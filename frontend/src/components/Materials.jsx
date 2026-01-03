@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import './Materials.css'
 
 function Materials() {
+  const [selectedVideo, setSelectedVideo] = useState(null)
+
   // OVDE UBACI PUTANJE DO TVOJIH FAJLOVA
   const documents = [
     {
@@ -39,8 +42,7 @@ function Materials() {
     {
       id: 1,
       author: 'Đorđe Đoković 121/2023',
-      title: 'Uvod u AI Oporavak Zvuka',
-      description: 'Osnove veštačke inteligencije u audio obradi',
+      title: 'Uvod u veštačku inteligenciju i osnovi rada sa zvukom',
       // UBACI PUTANJU: /public/videos/video1.mp4
       videoUrl: '/videos/video1.mp4',
       thumbnail: '🎬'
@@ -48,8 +50,7 @@ function Materials() {
     {
       id: 2,
       author: 'Igor Janičijević 022/2023',
-      title: 'Duboke Neuronske Mreže',
-      description: 'Primena CNN i RNN u restauraciji zvuka',
+      title: 'Budućnost AI obrade zvuka i etička pitanja',
       // UBACI PUTANJU: /public/videos/video2.mp4
       videoUrl: '/videos/video2.mp4',
       thumbnail: '🎥'
@@ -57,8 +58,7 @@ function Materials() {
     {
       id: 3,
       author: 'Đorđe Marković 127/2023',
-      title: 'Praktična Demonstracija',
-      description: 'Live demo oporavka degradiranog audio zapisa',
+      title: 'Primene AI u muzici, govoru i svakodnevnom životu',
       // UBACI PUTANJU: /public/videos/video3.mp4
       videoUrl: '/videos/video3.mp4',
       thumbnail: '🎞️'
@@ -73,6 +73,16 @@ function Materials() {
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
+  }
+
+  const openVideoModal = (video) => {
+    setSelectedVideo(video)
+    document.body.style.overflow = 'hidden' // Prevent background scrolling
+  }
+
+  const closeVideoModal = () => {
+    setSelectedVideo(null)
+    document.body.style.overflow = 'auto'
   }
 
   return (
@@ -133,23 +143,22 @@ function Materials() {
           
           <div className="videos-grid">
             {videos.map((video) => (
-              <div key={video.id} className="video-card">
+              <div 
+                key={video.id} 
+                className="video-card"
+                onClick={() => openVideoModal(video)}
+              >
                 <div className="video-author">
                   <span className="author-icon">👨‍🎓</span>
                   {video.author}
                 </div>
                 
-                <div className="video-container">
-                  <video 
-                    controls 
-                    className="video-player"
-                    poster={video.thumbnail}
-                  >
-                    <source src={video.videoUrl} type="video/mp4" />
-                    Vaš browser ne podržava video tag.
-                  </video>
+                <div className="video-thumbnail">
+                  <div className="play-button">
+                    <div className="play-icon">▶</div>
+                  </div>
                   
-                  {/* Animated sound wave overlay when hovering */}
+                  {/* Animated sound wave overlay */}
                   <div className="video-overlay">
                     <div className="video-wave">
                       <div className="wave-bar"></div>
@@ -163,7 +172,6 @@ function Materials() {
                 
                 <div className="video-info">
                   <h3>{video.title}</h3>
-                  <p>{video.description}</p>
                 </div>
               </div>
             ))}
@@ -185,6 +193,37 @@ function Materials() {
           </div>
         </div>
       </section>
+
+      {/* Video Modal */}
+      {selectedVideo && (
+        <div className="video-modal" onClick={closeVideoModal}>
+          <div className="modal-overlay"></div>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeVideoModal}>
+              <span>✕</span>
+            </button>
+            
+            <div className="modal-header">
+              <div className="modal-author">
+                <span className="author-icon">👨‍🎓</span>
+                {selectedVideo.author}
+              </div>
+              <h2>{selectedVideo.title}</h2>
+            </div>
+            
+            <div className="modal-video-container">
+              <video 
+                controls 
+                autoPlay
+                className="modal-video-player"
+              >
+                <source src={selectedVideo.videoUrl} type="video/mp4" />
+                Vaš browser ne podržava video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

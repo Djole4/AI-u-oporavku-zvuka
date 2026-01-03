@@ -6,22 +6,19 @@
 
 - **Ime fajla:** `video1.mp4`
 - **Putanja:** `/public/videos/video1.mp4`
-- **Naslov:** Uvod u AI Oporavak Zvuka
-- **Opis:** Osnove veštačke inteligencije u audio obradi
+- **Naslov:** Uvod u veštačku inteligenciju i osnovi rada sa zvukom
 
-### Video 2 - Igor Janičijević
+### Video 2 - Igor Janičijević 022/2023
 
 - **Ime fajla:** `video2.mp4`
 - **Putanja:** `/public/videos/video2.mp4`
-- **Naslov:** Duboke Neuronske Mreže
-- **Opis:** Primena CNN i RNN u restauraciji zvuka
+- **Naslov:** Budućnost AI obrade zvuka i etička pitanja
 
-### Video 3 - Đorđe Marković
+### Video 3 - Đorđe Marković 127/2023
 
 - **Ime fajla:** `video3.mp4`
 - **Putanja:** `/public/videos/video3.mp4`
-- **Naslov:** Praktična Demonstracija
-- **Opis:** Live demo oporavka degradiranog audio zapisa
+- **Naslov:** Primene AI u muzici, govoru i svakodnevnom životu
 
 ## Napomena:
 
