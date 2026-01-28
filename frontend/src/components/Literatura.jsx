@@ -450,6 +450,11 @@ function Literatura() {
                         <div className="output-badge vocal-badge">
                           <span className="badge-emoji">🎤</span>
                           <span className="badge-text">VOKAL</span>
+                          {hasAudio && showAfter && (
+                            <span className="play-indicator-dual">
+                              {isPlayingVocal ? '⏸️' : '▶️'}
+                            </span>
+                          )}
                         </div>
                         <div className="waveform">
                           {[...Array(20)].map((_, i) => (
@@ -463,11 +468,6 @@ function Literatura() {
                         {hasAudio && showAfter && !isPlayingVocal && (
                           <p className="click-hint">Klikni za vokal</p>
                         )}
-                        {isPlayingVocal && (
-                          <div className="playing-overlay">
-                            <span className="playing-text">⏸️ Svira...</span>
-                          </div>
-                        )}
                       </div>
 
                       <div 
@@ -477,6 +477,11 @@ function Literatura() {
                         <div className="output-badge instrumental-badge">
                           <span className="badge-emoji">🎸</span>
                           <span className="badge-text">INSTRUMENTAL</span>
+                          {hasAudio && showAfter && (
+                            <span className="play-indicator-dual">
+                              {isPlayingInstrumental ? '⏸️' : '▶️'}
+                            </span>
+                          )}
                         </div>
                         <div className="waveform">
                           {[...Array(20)].map((_, i) => (
@@ -489,11 +494,6 @@ function Literatura() {
                         <p className="audio-desc">Izolovani instrumental</p>
                         {hasAudio && showAfter && !isPlayingInstrumental && (
                           <p className="click-hint">Klikni za instrumental</p>
-                        )}
-                        {isPlayingInstrumental && (
-                          <div className="playing-overlay">
-                            <span className="playing-text">⏸️ Svira...</span>
-                          </div>
                         )}
                       </div>
                     </div>
