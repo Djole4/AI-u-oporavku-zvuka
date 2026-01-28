@@ -52,21 +52,6 @@ function Literatura() {
         vocal: '/audio/vocal.mp3',
         instrumental: '/audio/instrumental.mp3'
       }
-    },
-    {
-      id: 3,
-      title: 'Uklanjanje eha',
-      icon: '📢',
-      iconBig: '📢',
-      before: 'Audio sa jačim ehom',
-      after: 'Čist audio bez reverba',
-      technique: 'RNN Models',
-      accuracy: '91%',
-      speed: '~3s',
-      hardware: 'GPU',
-      color: '#43e97b',
-      type: 'single',
-      audioFiles: null
     }
   ]
 
