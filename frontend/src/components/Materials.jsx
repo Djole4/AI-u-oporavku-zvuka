@@ -62,6 +62,14 @@ function Materials() {
       // UBACI PUTANJU: /public/videos/video3.mp4
       videoUrl: '/videos/video3.mp4',
       thumbnail: '🎞️'
+    },
+    {
+      id: 4,
+      author: 'Svi Autori - Timski Rad',
+      title: 'Zajednički rad na projektu - kompletan pregled',
+      // UBACI PUTANJU: /public/videos/video4.mp4
+      videoUrl: '/videos/video4.mp4',
+      thumbnail: '🎭'
     }
   ]
 
